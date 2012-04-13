@@ -4,6 +4,7 @@ require(synapseClient)
 require(bfrm)
 require(affy)
 require(parallel)
+require(hgu133a.db)
 
 ## READ IN BETA CATENIN DATA
 egfrEnt <- downloadEntity(138511)
@@ -27,9 +28,20 @@ topEGFRSyms <- as.character(mget(topProbeIDs, hgu133aSYMBOL,
                                  ifnotfound = NA))
 
 ## RUN BFRM IN EVOLUTIONARY MODE
-asyncJob <- parallel(fooFactor <- evolve(egfrMat, 
+# In Asynchronous mode using {parallel}
+# asyncJob <- parallel(fooFactor <- evolve(egfrMat, 
+#                     init = as.numeric(topProbeInd),
+#                     maxVarIter = 30,
+#                     maxVars = length(topProbeInd))
+#                      )
+
+
+
+# In conventional mode
+fooFactor <- evolve(egfrMat, 
                     init = as.numeric(topProbeInd),
                     maxVarIter = 30,
+                    maxFacs = 5,
                     maxVars = length(topProbeInd))
-                     )
+
 

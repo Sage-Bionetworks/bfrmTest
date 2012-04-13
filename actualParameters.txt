@@ -1,0 +1,66 @@
+#Version 2.0                         
+#data section                        
+NObservations = 19                   
+NVariables = 22277                   
+NBinaryResponses = 0                 
+NCategoricalResponses = 0            
+NSurvivalResponses = 0               
+NContinuousResponses = 0             
+NDesignVariables = 1                 
+NControlVariables = 9                
+NLatentFactors = 1                   
+DataFile = egfr.rma.data.txt         
+HFile = H2.txt                       
+#prior section                       
+#model specification                 
+ShapeOfB = 2                         
+NonGaussianFactors = 1               
+#prior Psi                           
+PriorPsia = 2                        
+PriorPsib = 0.005                    
+PriorSurvivalPsia = 2                
+PriorSurvivalPsib = 0.5              
+#prior Rho                           
+PriorRhoMean = 0.001                 
+PriorRhoN = 200                      
+prior Pi                             
+PriorPiMean = 0.9                    
+PriorPiN = 10                        
+prior Tau                            
+PriorTauDesigna = 5                  
+PriorTauDesignb = 1                  
+PriorTauResponseBinarya = 5          
+PriorTauResponseBinaryb = 1          
+PriorTauResponseCategoricala = 5     
+PriorTauResponseCategoricalb = 1     
+PriorTauResponseSurvivala = 5        
+PriorTauResponseSurvivalb = 1        
+PriorTauResponseContinuousa = 5      
+PriorTauResponseContinuousb = 1      
+PriorTauLatenta = 5                  
+PriorTauLatentb = 1                  
+#priors on Intercept                 
+PriorInterceptMean = 8               
+PriorInterceptVar = 100              
+PriorContinuousMean = 0              
+PriorSurvivalMean = 2                
+PriorSurvivalVar = 1                 
+#evolving mode section               
+Evol = 1                             
+EvolVarIn = 8749                     
+EvolVarInFile = egfr_8749.txt        
+EvolIncludeVariableThreshold = 0.85  
+EvolIncludeFactorThreshold = 0.95    
+EvolMinimumVariablesInFactor = 10    
+EvolMaximumFactors = 50              
+EvolMaximumVariables = 8749          
+EvolMaximumVariablesPerIteration = 30
+InclusionMethod = 1                  
+#mcmc section                        
+Burnin = 2000                        
+nMCSamples = 5000                    
+#monitoring section                  
+PrintIteration = 100                 
+#DP parameters                       
+PriorAlphaa = 1                      
+PriorAlphab = 1
