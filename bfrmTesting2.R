@@ -40,8 +40,13 @@ topEGFRSyms <- as.character(mget(topProbeIDs, hgu133aSYMBOL,
 # In conventional mode
 fooFactor <- evolve(egfrMat, 
                     init = as.numeric(topProbeInd),
+                    varThreshold = 0.85,
+                    facThreshold = 0.95,
                     maxVarIter = 30,
-                    maxFacs = 5,
-                    maxVars = length(topProbeInd))
+                    minFacVars = 10,
+                    maxFacVars = length(topProbeInd),
+                    maxFacs = 50,
+                    maxVars = length(topProbeInd)
+                    )
 
 
