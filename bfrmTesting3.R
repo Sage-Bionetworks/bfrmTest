@@ -31,11 +31,13 @@ pcPlot1 <- ggplot(svdDF, aes(PrinComp1, PrinComp2)) +
   opts(plot.title = theme_text(size = 14))
 
 # USE SNM TO REMOVE THE TREATMENT EFFECT AND VISUALIZE FOR UNKNOWN BATCH
-adj.var = model.matrix(~ factor(egfrMeta))
-tmpFit <- snm(egfrExpress, adj.var, rm.adj = T)
-svdTmp <- fast.svd(tmpFit$norm.dat)
-tmpSvdDF <- as.data.frame(svdTmp$v[ , 1:4])
-colnames(tmpSvdDF) <- paste("PrinCompTxAdj", 1:4, sep = "")
+adjustMM = model.matrix(~ factor(egfrMeta))
+tmpFit <- snm(egfrExpress, adj.var = model.matrix(~ factor(egfrMeta)), 
+              int.var = data.frame(factor(1:ncol(egfrExpress))),
+              rm.adj = T)
+svdTmp <- fast.svd(tmpFit$norm.dat - rowMeans(tmpFit$norm.dat))
+tmpSvdDF <- as.data.frame(svdTmp$v[ , 1:2])
+colnames(tmpSvdDF) <- paste("PrinCompTxAdj", 1:2, sep = "")
 rownames(tmpSvdDF) <- colnames(egfrExpress)
 
 # A PRINCOMP PLOT OF ADJUSTED
