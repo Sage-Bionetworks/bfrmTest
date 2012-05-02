@@ -30,21 +30,22 @@ pcPlot1 <- ggplot(svdDF, aes(PrinComp1, PrinComp2)) +
   xlab("PrinComp1") +
   opts(plot.title = theme_text(size = 14))
 
-# USE SNM TO REMOVE THE TREATMENT EFFECT AND VISUALIZE FOR UNKNOWN BATCH
+# USE SNM TO REMOVE THE TREATMENT EFFECT AND VISUALIZE FOR UNKNOWN ARTEFACT
 adjustMM = model.matrix(~ factor(egfrMeta))
 tmpFit <- snm(egfrExpress, adj.var = model.matrix(~ factor(egfrMeta)), 
               int.var = data.frame(factor(1:ncol(egfrExpress))),
               rm.adj = T)
-svdTmp <- fast.svd(tmpFit$norm.dat - rowMeans(tmpFit$norm.dat))
+svdTmp <- fast.svd(tmpFit$norm.dat - rowMeans(tmpFit$norm.dat), tol=0)
 tmpSvdDF <- as.data.frame(svdTmp$v[ , 1:2])
 colnames(tmpSvdDF) <- paste("PrinCompTxAdj", 1:2, sep = "")
 rownames(tmpSvdDF) <- colnames(egfrExpress)
 
 # A PRINCOMP PLOT OF ADJUSTED
 pcPlot2 <- ggplot(tmpSvdDF, aes(PrinCompTxAdj1, PrinCompTxAdj2)) +
-  geom_point() +
+  geom_point(aes(colour = factor(egfrMeta))) +
   opts(title = "PC Plot of Ectopic EGFR Data after Removing Treatment") +
   ylab("PrinCompTxAdj2") +
   xlab("PrinCompTxAdj1") +
   opts(plot.title = theme_text(size = 14))
+pcPlot2
 
