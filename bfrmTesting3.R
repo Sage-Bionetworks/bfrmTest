@@ -15,16 +15,17 @@ egfrEnt <- loadEntity(299165)
 egfrEset <- egfrEnt$objects$rmaEset
 egfrMeta <- egfrEnt$objects$treatment
 egfrExpress <- exprs(egfrEset)
+sEGFRExpress <- scale(egfrExpress)
 
 ## FOR DIAGNOSTICS, GENERATE A PRINCOMP PLOT
-svdExp <- fast.svd(egfrExpress)
+svdExp <- fast.svd(sEGFRExpress)
 svdDF <- as.data.frame(svdExp$v[ , 1:4])
 colnames(svdDF) <- paste("PrinComp", 1:4, sep = "")
 rownames(svdDF) <- colnames(egfrExpress)
 
 # A PRINCOMP PLOT UNADJUSTED
 pcPlot1 <- ggplot(svdDF, aes(PrinComp1, PrinComp2)) +
-  geom_point() +
+  geom_point(aes(colour = factor(egfrMeta))) +
   opts(title = "PC Plot of Ectopic EGFR Data") +
   ylab("PrinComp2") +
   xlab("PrinComp1") +
@@ -32,8 +33,8 @@ pcPlot1 <- ggplot(svdDF, aes(PrinComp1, PrinComp2)) +
 
 # USE SNM TO REMOVE THE TREATMENT EFFECT AND VISUALIZE FOR UNKNOWN ARTEFACT
 adjustMM = model.matrix(~ factor(egfrMeta))
-tmpFit <- snm(egfrExpress, adj.var = model.matrix(~ factor(egfrMeta)), 
-              int.var = data.frame(factor(1:ncol(egfrExpress))),
+tmpFit <- snm(sEGFRExpress, adj.var = model.matrix(~ factor(egfrMeta)), 
+#               int.var = data.frame(factor(1:ncol(egfrExpress))),
               rm.adj = T)
 svdTmp <- fast.svd(tmpFit$norm.dat - rowMeans(tmpFit$norm.dat), tol=0)
 tmpSvdDF <- as.data.frame(svdTmp$v[ , 1:2])
