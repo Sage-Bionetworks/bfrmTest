@@ -24,11 +24,11 @@ egfrVec <- as.numeric(grepl("wtegf", egfrEnt$files, ignore.case = T))
 affxInd <- grep('AFFX', rownames(egfrMat), ignore.case = F)
 controlMat <- egfrMat[affxInd, ]
 controlSVD <- fast.svd(controlMat)
-hRightFive <- controlSVD$v[ , 1:5]
+hRightNine <- controlSVD$v[ , 1:9]
 # hMatrix <- cbind(rep(1, 19), egfrVec, hRightFive)
 
 ## RUN BFRM IN THE NONEVOLUTIONARY SPARSE ANOVA MODE
-foo <- bfrm(egfrMat, design = egfrVec, control = hRightFive)
+foo <- bfrm(egfrMat, design = egfrVec, control = t(hRightNine))
 mPPib <- foo@results$mPostPib
 topProbeLogical <- mPPib[ , 2] >= 0.99
 topProbeInd <- grep("TRUE", topProbeLogical)
@@ -57,6 +57,7 @@ anovaHeatPlot <- ggheat2(egfrMat[topProbeInd, ], clustering = 'both')
 # In conventional mode
 fooFactor <- evolve(egfrMat, 
                     init = as.numeric(topProbeInd),
+                    control = t(hRightNine),
                     varThreshold = 0.85,
                     facThreshold = 0.95,
                     maxVarIter = 30,
