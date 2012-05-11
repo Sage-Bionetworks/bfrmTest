@@ -58,6 +58,8 @@ anovaHeatPlot <- ggheat2(egfrMat[topProbeInd, ], clustering = 'both')
 fooFactor <- evolve(egfrMat, 
                     init = as.numeric(topProbeInd),
                     control = t(hRightNine),
+                    priorpsia = 2,
+                    priorpsib = 0.005,
                     varThreshold = 0.85,
                     facThreshold = 0.95,
                     maxVarIter = 30,
