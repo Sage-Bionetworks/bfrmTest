@@ -69,4 +69,14 @@ fooFactor <- evolve(egfrMat,
                     maxVars = length(topProbeInd)
                     )
 
+# OK, this seems to work. We therefore will need to change the default values 
+# for priorpsia and priorpsib
+
+# Now to evaluate the 'projection()' function:
+projFoo <- projection(fooFactor, egfrMat)
+par(mfrow = c(2,1))
+image(fooFactor@results$mF)
+image(t(projFoo)) # The projection result is transposed
+
+
 
